@@ -2,26 +2,156 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* Global reset and layout */
+html,
+body {
+  height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Theme tokens and base layer */
+@layer base {
+  /* Light theme tokens (default) */
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    /* colors stored as "h s% l%" strings (used with rgb(var(--...)) or via Tailwind config) */
+    --background: 216 100% 98.04%;
+    --foreground: 213.6 100% 4.9%;
+
+    --primary: 214.12 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --card: 216 100% 98.04%;
+    --card-foreground: 213.5 100% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 213.6 100% 4.9%;
+
+    --secondary: 214.74 100% 92.55%;
+    --secondary-foreground: 216 100% 0.98%;
+
+    --muted: 213.6 100% 95.1%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 213.6 100% 95.1%;
+    --accent-foreground: 214.12 100% 50%;
+
+    --destructive: 0 84.2% 50.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 90.2%;
+    --input: 0 0% 90.2%;
+
+    --ring: 214.12 100% 50%;
+
+    --radius: 0.5rem;
+  }
+
+  /* Dark theme overrides */
+  .dark {
+    --background: 220 65% 3.52%;
+    --foreground: 220 10% 97.2%;
+
+    --muted: 220 50% 13.2%;
+    --muted-foreground: 220 10% 54.4%;
+
+    --popover: 220 45% 5.72%;
+    --popover-foreground: 220 10% 97.2%;
+
+    --card: 220 45% 5.72%;
+    --card-foreground: 213.6 100% 4.9%;
+
+    --secondary: 220 50% 13.2%;
+    --secondary-foreground: 220 10% 97.2%;
+
+    --accent: 220 50% 13.2%;
+    --accent-foreground: 220 10% 97.2%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 220 10% 97.2%;
+
+    --border: 220 50% 13.2%;
+    --input: 220 50% 13.2%;
+
+    --ring: 220 100% 44%;
+  }
+
+  /*
+    NOTE:
+    The tokens above are stored as three-part values (hue saturation% lightness%).
+    How you consume these in your project depends on your Tailwind configuration.
+    Example usage in CSS: color: hsl(var(--foreground));
+    Example usage in Tailwind (via config): add css custom properties to theme.colors
+  */
+
+  /* Apply the design tokens via utility classes (assumes Tailwind config maps bg-background / text-foreground to custom properties) */
+  * {
+    /* apply a default border token if you have a utility for it */
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial;
+    line-height: 1.5;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* small decorative dot pattern used in screenshots */
+.dotPattern {
+  background-image: radial-gradient(rgb(35, 40, 68) 1px, transparent 1px);
+  background-size: 25px 25px;
 }
+
+/* small animation used for components */
+.use-automation-zoom-in {
+  animation: automation-zoom-in 0.5s ease both;
+}
+
+@keyframes automation-zoom-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* optional utilities for using the CSS variables directly (fallback if Tailwind config is not set) */
+:root,
+.dark {
+  /* helper CSS variables converted to actual CSS color values for plain CSS usage */
+  /* Lightweight conversion — use HSL with variables: h s l */
+  --bg-h: 216;
+  --bg-s: 100%;
+  --bg-l: 98.04%;
+
+  /* If you prefer direct CSS variables for colors, uncomment the following examples and adjust in JS build or Tailwind config:
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  */
+}
+
+/* Example plain-CSS fallback classes (uncomment/use if not using Tailwind mapping) */
+/*
+.bg-var {
+  background-color: hsl(var(--background));
+}
+.text-var {
+  color: hsl(var(--foreground));
+}
+.card {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: var(--radius);
+}
+*/
