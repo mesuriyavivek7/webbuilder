@@ -1,6 +1,9 @@
 import { pricingCards } from '@/lib/constants'
 import Image from 'next/image'
-import { Card } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import clsx from 'clsx'
+import { Check } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -28,11 +31,38 @@ export default function Home() {
           Our straight forward pricing plans are tailored to meet your needs. If {" you're"} not <br></br>
           ready to commit you can get started for free
         </p>
-        <div className='flex items-center gap-4 flex-wrap mt-6'>
+        <div className='flex gap-4 flex-wrap mt-6'>
           {pricingCards.map((card) => (
             <Card key={card.title}
+            className={clsx('w-[300px] flex flex-col justify-between', {'border-2 border-primary': card.title === "Unlimited Saas"})}
             >
-              {card.description}
+              <CardHeader>
+                <CardTitle className={clsx('',{'text-muted-foreground':card.title !== 'Unlimited Saas'})}>
+                  {card.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <span className='text-4xl font-bold'>{card.price}</span>
+                <span className='text-muted-foreground'>/m</span>
+              </CardContent>
+              <CardFooter className='flex flex-col items-start gap-4'>
+                <div>
+                  {
+                    card.features.map((feat) => (
+                      <div key={feat} className='flex gap-2 items-center'>
+                        <Check className='text-muted-foreground'></Check>
+                        <p>{feat}</p>
+                      </div>
+                    ))
+                  }
+                </div>
+                <Link href={`/agency?plan=${card.priceId}`} className={clsx(
+                  'w-full text-center bg-primary p-2 rounded-md',
+                  {'!bg-muted-foreground': card.title !== 'Unlimited Saas'}
+                )}>
+                  Get Started
+                </Link>
+              </CardFooter>
             </Card>
           ))}
         </div>
