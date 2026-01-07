@@ -11,7 +11,7 @@ type Props = {
 
 const Navigation = ({user}: Props) => {
   return (
-    <div className='p-4 flex items-center justify-between relative'>
+    <div className='fixed top-0 right-0 left-0 flex items-center p-4 z-10 justify-between'>
         <aside className='flex items-center gap-2'>
             <Image 
             src={'./assets/logo.svg'}
@@ -30,7 +30,7 @@ const Navigation = ({user}: Props) => {
             </ul>
         </nav>
         <aside className='flex gap-2 items-center'>
-            <Link className='bg-primary text-white p-2 px-2 rounded-md hover:bg-primary/80' href={'/agency/sign-in'}>
+            <Link className='bg-primary text-white p-2 px-2 rounded-md hover:bg-primary/80' href={'/agency'}>
                 Login
             </Link>
             <UserButton></UserButton>
